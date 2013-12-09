@@ -9,3 +9,5 @@ To install:
 2. Select _File > Extension Manager..._ or click the Lego icon in the toolbar
 3. Click the "Install from URL..." button
 4. Paste (or enter) `git@git.corp.adobe.com:gruehle/exclude-folders.git` and click "Install"
+
+By default, this extension excludes all `node_modules` folders. If you want to exclude additional folders, edit the regular expression on line 41 of `main.js`.
