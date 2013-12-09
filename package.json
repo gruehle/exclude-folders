@@ -1,0 +1,11 @@
+{
+    "name": "gruehle.exclude-folders",
+    "title": "Exclude Folders",
+    "description": "Excludes folders from Brackets",
+    "version": "0.1.0",
+    "author": "Glenn Ruehle <gruehle@adobe.com> (https://git.corp.adobe.com/gruehle)",
+    "license": "MIT",
+    "engines": {
+        "brackets": ">=0.34.0"
+    }
+}
