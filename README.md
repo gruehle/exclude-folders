@@ -27,9 +27,9 @@ or on a per project basis:
 
 Create `.brackets.json` in project root
 
-*Note:*
+**Note:**
 
-*Project config completely redefine exclusion rules from global config.*
+**Project config completely redefine exclusion rules from global config.**
 
 Configuration sample
 
@@ -42,9 +42,15 @@ Configuration sample
 }
 ```
 
+You can use shell glob expansion, like `?`, `*` or `**`
+
+Those globs is similar to the gitignore ones. So, if pattern starts with `/`,
+it matches file names from project root.
+
+
 Incompatibilities with previous version
 ------------------------
 
-Extension code is rewritten, so you need to migrate your changes on your own.
+1. Extension code is rewritten, so you need to migrate your changes on your own.
 
-In current version there is no way to declare case insensitive rules.
+2. In current version there is no way to declare case insensitive rules.
