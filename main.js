@@ -25,19 +25,53 @@
 
 define(function (require, exports, module) {
     "use strict";
-    
-    var FileSystem  = brackets.getModule("filesystem/FileSystem");
-    
-    var _oldFilter = FileSystem._FileSystem.prototype._indexFilter;
-    
-    FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
-        // Call old filter
-        var result = _oldFilter.apply(this, arguments);
-        
-        if (!result) {
-            return false;
-        }
-        
-        return !name.match(/node_modules/);
-    };
+
+    var EXTENSION_NAME = "exclude-folders",
+		AppInit = brackets.getModule('utils/AppInit'),
+		FileSystem  = brackets.getModule("filesystem/FileSystem"),
+		prefs = brackets.getModule("preferences/PreferencesManager").getExtensionPrefs(EXTENSION_NAME);
+
+	var ExcludeFolders = {
+		init: function() {
+			if (typeof prefs.get('regExp') === 'undefined') {
+				this.createPreferences();
+			}
+			
+			prefs.on('change', ExcludeFolders.getPreferences);
+
+			this.getPreferences();
+			this.installFilter();
+		},
+		createPreferences: function() {
+			prefs.definePreference('regExp', 'string', 'node_modules');
+			prefs.definePreference('flags', 'string', '');
+			
+			prefs.set('regExp', 'node_modules');
+			prefs.set('flags', '');
+
+			prefs.save();
+		},
+		getPreferences: function() {
+			ExcludeFolders.regExp = new RegExp(prefs.get('regExp'), prefs.get('flags'));
+		},
+		installFilter: function() {
+			var _oldFilter = FileSystem._FileSystem.prototype._indexFilter;
+
+			FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
+				// Call old filter
+				var result = _oldFilter.apply(this, arguments),
+					fullPath = path + name;
+
+				if (!result) {
+					return false;
+				}
+
+				return !fullPath.match(ExcludeFolders.regExp);
+			};
+		}
+	};
+
+	AppInit.appReady(function() {
+		ExcludeFolders.init();
+	});
 });

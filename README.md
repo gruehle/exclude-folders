@@ -10,24 +10,29 @@ To install:
 3. Click the "Install from URL..." button
 4. Paste (or enter) `https://github.com/gruehle/exclude-folders` and click "Install"
 
-By default, this extension excludes all `node_modules` folders. If you want to exclude additional folders, edit the regular expression on line 41 of `main.js`. For example, if you want to exclude all items that contain the words `node_modules`, `bin`, and `componenets`, use:
+By default, this extension excludes all `node_modules` folders. If you want to exclude additional folders, open the preferences file (menu `debug -> open preferences file`), locate the entry called "exclude-folders" and enter any valid regExp. For example, if you want to exclude all items that contain the words `node_modules`, `bin`, and `componenets`, use:
 
-```js
-    return !name.match(/node_modules|bin|components/);
+```json
+    {
+        "exclude-folders.regExp": "node_modules|bin|components"
+    }
 ```
 
 Note that this will match these words *anywhere* in the folder *or* file name. For example, if you have a folder named "my-components", it will also be excluded. You can use the `^` and `$` anchors to ensure that the name must be a complete match:
 
 
-```js
-    return !name.match(/^(node_modules|bin|components)$/);
+```json
+     {
+        "exclude-folders.regExp": "^(node_modules|bin|components)$"
+    }
 ```
 
-Matching is case sensitive by default. Add `i` to the end to make it case-insensitive:
+Matching is case sensitive by default. Add `i` to the `exclude-folders.flags` node:
 
 
-```js
-    return !name.match(/^(node_modules|bin|components)$/i);
+```json
+     "exclude-folders.regExp": "^(node_modules|bin|components)$",
+     "exclude-folders.flags":  "i"
 ```
 
 
