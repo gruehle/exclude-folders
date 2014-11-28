@@ -59,13 +59,14 @@ define(function (require, exports, module) {
 
 			FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
 				// Call old filter
-				var result = _oldFilter.apply(this, arguments);
-				
+				var result = _oldFilter.apply(this, arguments),
+					fullPath = path + name;
+
 				if (!result) {
 					return false;
 				}
-				
-				return !name.match(this.regExp);
+
+				return !fullPath.match(ExcludeFolders.regExp);
 			};
 		}
 	};
